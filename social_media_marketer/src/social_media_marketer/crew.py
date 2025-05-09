@@ -1,64 +1,70 @@
 from crewai import Agent, Crew, Process, Task
+from langchain_openai import ChatOpenAI
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
-# If you want to run a snippet of code before or after the crew starts,
-# you can use the @before_kickoff and @after_kickoff decorators
-# https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
 class SocialMediaMarketer():
-    """SocialMediaMarketer crew"""
+    """Social Media Marketing Crew that generates engaging social media posts"""
 
     agents: List[BaseAgent]
     tasks: List[Task]
-
-    # Learn more about YAML configuration files here:
-    # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
-    # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
     
-    # If you would like to add tools to your agents, you can learn more about it here:
-    # https://docs.crewai.com/concepts/agents#agent-tools
+    # Configure a more cost-effective OpenAI model
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+    
     @agent
-    def researcher(self) -> Agent:
+    def trend_analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
+            config=self.agents_config['trend_analyst'],
+            verbose=True,
+            llm=self.llm
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def content_creator(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
-            verbose=True
+            config=self.agents_config['content_creator'],
+            verbose=True,
+            llm=self.llm
         )
 
-    # To learn more about structured task outputs,
-    # task dependencies, and task callbacks, check out the documentation:
-    # https://docs.crewai.com/concepts/tasks#overview-of-a-task
-    @task
-    def research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+    @agent
+    def engagement_optimizer(self) -> Agent:
+        return Agent(
+            config=self.agents_config['engagement_optimizer'],
+            verbose=True,
+            llm=self.llm
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def analyze_trends_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config['analyze_trends_task'],
+            output_file='trend_analysis.md'
+        )
+
+    @task
+    def create_posts_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['create_posts_task'],
+            output_file='social_media_posts.md'
+        )
+
+    @task
+    def optimize_posts_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['optimize_posts_task'],
+            output_file='optimized_social_media_posts.md'
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the SocialMediaMarketer crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
+        """Creates the Social Media Marketing crew with three specialized agents"""
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents,
+            tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )

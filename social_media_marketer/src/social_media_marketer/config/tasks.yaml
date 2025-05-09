@@ -1,17 +1,61 @@
-research_task:
+analyze_trends_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
+    Analyze current social media trends related to {topic} with focus on:
+    1. Platform-specific trending hashtags and topics (Instagram, Twitter, Facebook, LinkedIn, TikTok)
+    2. Current viral content formats and styles for each platform
+    3. Competitor content performance and engagement patterns
+    4. Audience behavior and preferences across platforms
+    5. Trending keywords, phrases, and conversation topics related to {topic}
+    Make sure your analysis is current for {current_year}.
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
-
-reporting_task:
-  description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
-  expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
+    A comprehensive trend analysis report with:
+    - Platform-specific trend breakdown for major social networks
+    - Top performing hashtags and keywords by platform
+    - Content formats driving highest engagement currently
+    - Audience insights and behavioral patterns
+    - Opportunities to leverage current trends for {topic}
     Formatted as markdown without '```'
-  agent: reporting_analyst
+  agent: trend_analyst
+
+create_posts_task:
+  description: >
+    Using the trend analysis, create a set of social media posts for {topic} that includes:
+    1. 5 Instagram posts (with caption, hashtags, and image/video description)
+    2. 5 Twitter/X posts (concise with appropriate hashtags)
+    3. 3 LinkedIn posts (professional tone with industry insights)
+    4. 3 Facebook posts (more detailed with conversation starters)
+    5. 3 TikTok concepts (brief description of content, hook, and hashtags)
+    
+    Each post should leverage relevant trends identified in the analysis.
+  expected_output: >
+    A collection of platform-specific social media posts organized by platform:
+    - Instagram section with 5 complete posts
+    - Twitter/X section with 5 posts
+    - LinkedIn section with 3 professional posts
+    - Facebook section with 3 engagement-focused posts
+    - TikTok section with 3 content concepts
+    Each post should include all required elements (captions, hashtags, etc.)
+    Formatted as markdown without '```'
+  agent: content_creator
+  dependencies: [analyze_trends_task]
+
+optimize_posts_task:
+  description: >
+    Optimize the created social media posts to maximize engagement by:
+    1. Refining hashtags for maximum discoverability
+    2. Suggesting optimal posting times for each platform
+    3. Adding engagement prompts and calls-to-action
+    4. Enhancing visual content descriptions
+    5. Creating a posting schedule and content calendar
+    6. Adding A/B testing variations for key posts
+  expected_output: >
+    A complete optimized social media content package with:
+    - Refined posts with improved hashtags and CTAs
+    - Posting schedule with optimal times
+    - Content calendar for organized implementation
+    - A/B testing suggestions for key posts
+    - Performance prediction metrics
+    - Implementation recommendations
+    Formatted as markdown without '```'
+  agent: engagement_optimizer
+  dependencies: [analyze_trends_task, create_posts_task]

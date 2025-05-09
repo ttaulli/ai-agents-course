@@ -10,15 +10,13 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 # This main file is intended to be a way for you to run your
 # crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
 
 def run():
     """
-    Run the crew.
+    Run the social media marketing crew to generate posts.
     """
     inputs = {
-        'topic': 'AI LLMs',
+        'topic': 'Tech Gadgets',  # Example topic - change as needed for your social media posts
         'current_year': str(datetime.now().year)
     }
     
@@ -33,7 +31,7 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs",
+        "topic": "Tech Gadgets",  # Example topic
         'current_year': str(datetime.now().year)
     }
     try:
@@ -57,7 +55,7 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
+        "topic": "Tech Gadgets",  # Example topic
         "current_year": str(datetime.now().year)
     }
     
@@ -66,3 +64,6 @@ def test():
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
+
+if __name__ == "__main__":
+    run()
