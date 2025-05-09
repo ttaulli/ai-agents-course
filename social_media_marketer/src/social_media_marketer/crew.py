@@ -11,8 +11,8 @@ class SocialMediaMarketer():
     agents: List[BaseAgent]
     tasks: List[Task]
     
-    # Configure a more cost-effective OpenAI model
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+    # Configure a more powerful OpenAI model
+    llm = ChatOpenAI(model="gpt-4", temperature=0.7)
     
     @agent
     def trend_analyst(self) -> Agent:
